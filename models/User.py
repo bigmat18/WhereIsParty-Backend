@@ -24,7 +24,9 @@ class User(Base):
     
     password = Column(String(64))
     
-    def __init__(self, password, email, first_name, last_name):
+    access_revoked = Column(BOOLEAN, default=False)
+    
+    def __init__(self, password:str, email:str, first_name:str, last_name:str):
         self.password = password
         self.email = email
         self.first_name = first_name

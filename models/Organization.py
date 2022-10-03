@@ -39,3 +39,28 @@ class Organizarion(Base):
         self.id_creator = id_creator
         self.description = description
         self.image_url = image_url
+        
+        
+        
+class UserInOrganization(Base):
+    __tablename__ = "user_in_organization"
+    
+    id_organization = Column(UUID(as_uuid=True),
+                             ForeignKey("organization.id",
+                                        ondelete=True),
+                             primary_key=True)
+    
+    id_user = Column(UUID(as_uuid=True),
+                    ForeignKey("user.id",
+                                ondelete=True),
+                    primary_key=True)
+    
+    id_role = Column(UUID(as_uuid=True),
+                    ForeignKey("role.id",
+                                ondelete=True))
+    
+    def __init__(self, id_organization:UUID4, id_user:UUID4, id_role:UUID4) -> None:
+        self.id_organization = id_organization
+        self.id_user = id_user
+        self.id_role = id_role
+        
