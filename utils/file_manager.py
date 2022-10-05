@@ -3,17 +3,17 @@ from tempfile import SpooledTemporaryFile
 from botocore.client import BaseClient
 from typing import Union
 
-AWS_ACCESS_KEY = os.getenv('AWS_ACCESS_KEY', default='AKIA2CTNZ3PLCPDWI37X')
-AWS_SECRET_KEY = os.getenv('AWS_SECRET_KEY', default='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')
-AWS_S3_BUCKET_NAME = os.getenv('AWS_S3_BUCKET_NAME', default='gluteatfree-media-bucket')
-AWS_BUCKET_URL = f"https://{AWS_S3_BUCKET_NAME}.s3.eu-south-1.amazonaws.com"
+AWS_ACCESS_KEY = os.getenv('AWS_ACCESS_KEY', default='AKIAZ26I2DR5PYTQZZHW')
+AWS_SECRET_KEY = os.getenv('AWS_SECRET_KEY', default='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')
+AWS_S3_BUCKET_NAME = os.getenv('AWS_S3_BUCKET_NAME', default='wip-media-bucket')
+AWS_BUCKET_URL = f"https://{AWS_S3_BUCKET_NAME}.s3.eu-west-3.amazonaws.com"
 
 
 def s3() -> BaseClient:
     client = boto3.client(service_name='s3',
                           aws_access_key_id=AWS_ACCESS_KEY,
                           aws_secret_access_key=AWS_SECRET_KEY,
-                          region_name='eu-south-1')
+                          region_name='eu-west-3')
 
     return client
 

@@ -7,6 +7,9 @@ from fastapi.responses import JSONResponse
 from fastapi_jwt_auth import AuthJWT
 from fastapi_jwt_auth.exceptions import AuthJWTException
 from pydantic import BaseModel
+from models import User
+
+from routers.auth import auth_router
 
 
 Base.metadata.create_all(bind=engine)
@@ -28,11 +31,11 @@ def get_config():
 
 
 # get id user and set it logged out from rest api
-# @AuthJWT.token_in_denylist_loader
-# def check_if_token_in_denylist(decrypted_token):
-#     user_id = decrypted_token['sub']
-#     user = db.query(User).filter(User.id == user_id).first()
-#     return user.access_revoked
+@AuthJWT.token_in_denylist_loader
+def check_if_token_in_denylist(decrypted_token):
+    user_id = decrypted_token['sub']
+    user = db.query(User).filter(User.id == user_id).first()
+    return user.access_revoked
 
 
 # exception handler for authjwt
@@ -53,8 +56,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(auth_router)
+
+
 # Create admin user
-# if not db.query(User).filter(User.email == "admin@admin.com").first():
-#     user = User("admin123456", "admin@admin.com", "admin", "admin", type_account="ADMIN")
-#     db.add(user)
-#     db.commit()
+if not db.query(User).filter(User.email == "admin@admin.com").first():
+    user = User("admin123456", "admin@admin.com", "admin", "admin")
+    db.add(user)
+    db.commit()

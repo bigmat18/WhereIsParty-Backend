@@ -3,6 +3,8 @@ from sqlalchemy import Column, String, ForeignKey, BOOLEAN
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql.sqltypes import TIMESTAMP
 from database import Base
+from werkzeug.security import (generate_password_hash, 
+                               check_password_hash)
 import uuid
 
 
@@ -22,6 +24,8 @@ class User(Base):
     last_login = Column(TIMESTAMP(timezone=True),
                         nullable=True)
     
+    image_url = Column(String, nullable=True)
+    
     password = Column(String(64))
     
     access_revoked = Column(BOOLEAN, default=False)
@@ -31,3 +35,10 @@ class User(Base):
         self.email = email
         self.first_name = first_name
         self.last_name = last_name
+        
+    def set_password(self, password):
+        self.password = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(pwhash=self.password,
+                                   password=password)
