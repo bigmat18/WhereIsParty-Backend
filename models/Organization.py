@@ -4,10 +4,14 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql.sqltypes import TIMESTAMP
 from database import Base
 from pydantic import EmailStr, UUID4
+from sqlalchemy.ext.hybrid import hybrid_property
+from database import SessionLocal
+from models.Location import Location
+from models.ReferralLink import ReferralLink
 import uuid
 
 
-class Organizarion(Base):
+class Organization(Base):
     __tablename__ = "organization"
     
     id = Column(UUID(as_uuid=True),
@@ -27,6 +31,8 @@ class Organizarion(Base):
     
     created_at = Column(TIMESTAMP(timezone=True),
                         server_default=text('now()'))
+    updated_at = Column(TIMESTAMP(timezone=True),
+                        server_default=text('now()'))
     
     instagram_link = Column(String)
     
@@ -39,6 +45,20 @@ class Organizarion(Base):
         self.id_creator = id_creator
         self.description = description
         self.image_url = image_url
+        
+    @hybrid_property
+    def locations(self):
+        db = SessionLocal()
+        return db.query(Location)\
+                 .filter(Location.id_organization == self.id)\
+                 .all()
+                 
+    @hybrid_property
+    def referral_links(self):
+        db = SessionLocal()
+        return db.query(ReferralLink)\
+                 .filter(ReferralLink.id_organization == self.id)\
+                 .all()
         
         
         

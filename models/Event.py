@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Union
 from pydantic import UUID4
-from sqlalchemy.sql.expression import text
+from sqlalchemy.orm import relationship
 from sqlalchemy import Column, String, ForeignKey, BOOLEAN
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql.sqltypes import TIMESTAMP
@@ -18,8 +18,7 @@ class Event(Base):
                 default=uuid.uuid4)
     
     name = Column(String)
-    description = Column(String, nullable=True)
-    theme_config = Column(JSON, nullable=True)
+    description = Column(String)
     
     date = Column(TIMESTAMP(timezone=True))
     open_date = Column(TIMESTAMP(timezone=True))
@@ -36,9 +35,11 @@ class Event(Base):
                              ForeignKey("location.id",
                                         ondelete=True))
     
-    id_theme = Column(UUID(as_uuid=True),
-                      ForeignKey("event_theme.id",
-                                ondelete=True))
+    primary_color = Column(String(6))
+    secondary_color = Column(String(6))
+    
+    location = relationship("Location")
+    organization = relationship("Organization")
     
     
     def __init__(self, name:str, theme_config: object, date:datetime, open_date:datetime, close_date:datetime, 

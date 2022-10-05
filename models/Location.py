@@ -1,7 +1,8 @@
 from sqlalchemy.sql.expression import text
-from sqlalchemy import Column, String, ForeignKey, BOOLEAN
+from sqlalchemy import Column, String, ForeignKey, BOOLEAN, Float
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql.sqltypes import TIMESTAMP
+from geoalchemy2 import Geometry
 from database import Base
 from pydantic import EmailStr, UUID4
 import uuid
@@ -20,8 +21,7 @@ class Location(Base):
                         ForeignKey("organization.id", 
                                   ondelete="CASCADE"))
     
-    latitude = Column(String)
-    longitude = Column(String)
+    coordinate = Column(Geometry('POINT'))
     
     address = Column(String)
     
