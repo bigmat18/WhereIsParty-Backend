@@ -49,7 +49,7 @@ def organization_update(organization_data: OrganizationSchema,
     return organization
 
 
-@organization_router.patch(path="/organization/{id_organization}/image", status_code=status.HTTP_200_OK, response_model=OrganizationSchema)
+@organization_router.patch(path="/organization/{id_organization}/image", status_code=status.HTTP_200_OK)
 def organizaion_image_update(id_organization: str,
                              image: UploadFile = File(),
                              user: User = Depends(get_current_user),
@@ -68,4 +68,4 @@ def organizaion_image_update(id_organization: str,
     db.commit()
     db.refresh(organization)
         
-    return organization
+    return {"image_url": url}
