@@ -7,8 +7,8 @@ from pydantic import constr
 
 class ReferralLinkSchema(BaseModel):
     id: UUID4
-    name: str
-    users: List[UserSchema]
+    name: str = None
+    users: List[Union[str, UserSchema]] = None
     
     class Config:
         orm_mode = True
