@@ -14,19 +14,19 @@ class OrganizationInEventSchema(BaseModel):
 
 class EventSchema(BaseModel):
     id: Union[UUID4, None] = None
-    name: str = None
-    description: str = None
+    name: str | None = None
+    description: str | None = None
     
-    date: datetime = None
-    open_date: datetime = None
-    close_date: datetime = None
-    visible_date: datetime = None
+    date: datetime | None = None
+    open_date: datetime | None = None
+    close_date: datetime | None = None
+    visible_date: datetime | None = None
     
-    primary_color: Optional[constr(6)] = None
-    secondary_color: Optional[constr(6)] = None
+    primary_color: Optional[constr(max_length=8)] | None = None
+    secondary_color: Optional[constr(max_length=8)] | None = None
     
     image_url: Union[str, None] = None
-    location: Union[LocationSchema, UUID4] = None
+    location: Union[str, LocationSchema, None] = None
     organization: Union[OrganizationInEventSchema, None] = None
     
     class Config:

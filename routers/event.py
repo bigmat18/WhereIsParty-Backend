@@ -17,13 +17,19 @@ def get_event(id:str, db:Session) -> Event:
                             detail=f"Non esiste una event con questo id")
     return event
 
-@event_router.post(path="/organization/{id_organization}/events", status_code=status.HTTP_201_CREATED, response_model=EventSchema)
+@event_router.post(path="/organization/{id_organization}/events", status_code=status.HTTP_201_CREATED)
 def event_create(id_organization: str,
                  event_data: EventSchema,
                  db: Session = Depends(get_db),
                  user: User = Depends(get_current_user)):
     
     organization = get_organization(id_organization, db)
+    
+
+    location = db.query(Location).filter(Location.id == str(event_data.location)).first()
+    if not location:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                            detail="Location non esistente")
     
     event = Event(event_data.name,
                   event_data.primary_color,
@@ -32,7 +38,7 @@ def event_create(id_organization: str,
                   event_data.open_date,
                   event_data.close_date,
                   event_data.visible_date,
-                  event_data.location,
+                  location.id,
                   organization.id,
                   event_data.description)
     
@@ -43,7 +49,7 @@ def event_create(id_organization: str,
     return event
 
 
-@event_router.post(path="/event/{id_event}", status_code=status.HTTP_200_OK, response_model=EventSchema)
+@event_router.patch(path="/event/{id_event}", status_code=status.HTTP_200_OK, response_model=EventSchema)
 def event_update(id_event: str,
                  event_data: EventSchema,
                  user: User = Depends(get_current_user),

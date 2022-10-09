@@ -11,6 +11,8 @@ from models import User, Organization
 
 from routers.auth import auth_router
 from routers.organization import organization_router
+from routers.location import location_router
+from routers.event import event_router
 
 
 Base.metadata.create_all(bind=engine)
@@ -59,6 +61,8 @@ app.add_middleware(
 
 app.include_router(auth_router)
 app.include_router(organization_router)
+app.include_router(location_router)
+app.include_router(event_router)
 
 
 # Create admin user

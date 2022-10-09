@@ -34,7 +34,7 @@ def location_create(id_organization:str,
     
     db.add(location)
     db.commit()
-    db.refresh()
+    db.refresh(location)
     
     return location
 
