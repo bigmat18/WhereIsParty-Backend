@@ -17,14 +17,16 @@ class Role(Base):
     
     id_organization = Column(UUID(as_uuid=True),
                              ForeignKey("organization.id",
-                                        ondelete=True))
+                                        ondelete="CASCADE"))
     
     is_viewer = Column(BOOLEAN, default=False)
     is_editor = Column(BOOLEAN, default=False)
     is_scanner = Column(BOOLEAN, default=False)
     is_media_manager = Column(BOOLEAN, default=False)
     
-    def __init__(self, name:str, id_organization:UUID4) -> None:
+    def __init__(self, 
+                 name:str, 
+                 id_organization:UUID4) -> None:
         self.name = name
         self.id_organization = id_organization
     

@@ -21,6 +21,7 @@ class User(Base):
     
     date_joined = Column(TIMESTAMP(timezone=True),
                          server_default=text('now()'))
+    
     last_login = Column(TIMESTAMP(timezone=True),
                         nullable=True)
     
@@ -30,7 +31,11 @@ class User(Base):
     
     access_revoked = Column(BOOLEAN, default=False)
     
-    def __init__(self, password:str, email:str, first_name:str, last_name:str):
+    def __init__(self, 
+                 password:str, 
+                 email:str, 
+                 first_name:str,
+                 last_name:str):
         self.password = password
         self.email = email
         self.first_name = first_name

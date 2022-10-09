@@ -16,7 +16,7 @@ class EventImage(Base):
     
     id_event = Column(UUID(as_uuid=True),
                       ForeignKey("event.id",
-                                 ondelete=True))
+                                 ondelete="CASCADE"))
     
     image_url = Column(String)
     
@@ -31,12 +31,12 @@ class EventImageTag(Base):
     
     id_user = Column(UUID(as_uuid=True),
                      ForeignKey("user.id",
-                                ondelete=True),
+                                ondelete="CASCADE"),
                      primary_key=True)
     
     id_image = Column(UUID(as_uuid=True),
                      ForeignKey("event_image.id",
-                                ondelete=True),
+                                ondelete="CASCADE"),
                      primary_key=True)
     
     def __init__(self, id_user:UUID4, id_image:UUID4) -> None:

@@ -21,11 +21,12 @@ class Location(Base):
                         ForeignKey("organization.id", 
                                   ondelete="CASCADE"))
     
-    coordinate = Column(Geometry('POINT'))
+    longitude = Column(Float)
+    latitude = Column(Float)
     
     address = Column(String)
     
-    def __init__(self, name:str, latitude:str, id_organization:UUID4, longitude:str, address:str) -> None:
+    def __init__(self, name:str, latitude:float, id_organization:UUID4, longitude:float, address:str) -> None:
         self.name = name
         self.latitude = latitude
         self.id_organization = id_organization

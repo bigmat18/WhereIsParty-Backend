@@ -29,11 +29,11 @@ class Event(Base):
     
     id_location = Column(UUID(as_uuid=True),
                          ForeignKey("location.id",
-                                    ondelete=True))
+                                    ondelete="CASCADE"))
     
     id_organization = Column(UUID(as_uuid=True),
-                             ForeignKey("location.id",
-                                        ondelete=True))
+                             ForeignKey("organization.id",
+                                        ondelete="CASCADE"))
     
     primary_color = Column(String(6))
     secondary_color = Column(String(6))
@@ -42,17 +42,29 @@ class Event(Base):
     organization = relationship("Organization")
     
     
-    def __init__(self, name:str, theme_config: object, date:datetime, open_date:datetime, close_date:datetime, 
-                 visible_date:datetime, id_location:UUID4, id_organization:UUID4, id_theme:UUID4, 
+    def __init__(self, 
+                 name:str,
+                 primary_color:str,
+                 secondary_color:str, 
+                 date:datetime, 
+                 open_date:datetime,
+                 close_date:datetime,
+                 visible_date:datetime, 
+                 id_location:UUID4,
+                 id_organization:UUID4,
                  description:Union[str, None] = None) -> None:
+        
         self.name = name
         self.description = description
+        
         self.open_date = open_date
         self.close_date = close_date
         self.visible_date = visible_date
         self.date = date
-        self.theme_config = theme_config
+        
+        self.primary_color = primary_color
+        self.secondary_color = secondary_color
+        
         self.id_organization = id_organization
         self.id_location = id_location
-        self.id_theme = id_theme
         

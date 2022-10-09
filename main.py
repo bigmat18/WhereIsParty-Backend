@@ -7,9 +7,10 @@ from fastapi.responses import JSONResponse
 from fastapi_jwt_auth import AuthJWT
 from fastapi_jwt_auth.exceptions import AuthJWTException
 from pydantic import BaseModel
-from models import User
+from models import User, Organization
 
 from routers.auth import auth_router
+from routers.organization import organization_router
 
 
 Base.metadata.create_all(bind=engine)
@@ -57,10 +58,20 @@ app.add_middleware(
 )
 
 app.include_router(auth_router)
+app.include_router(organization_router)
 
 
 # Create admin user
-if not db.query(User).filter(User.email == "admin@admin.com").first():
+user = db.query(User).filter(User.email == "admin@admin.com").first()
+if not user:
     user = User("admin123456", "admin@admin.com", "admin", "admin")
     db.add(user)
     db.commit()
+    
+# Create default organization
+if not db.query(Organization).filter(Organization.email == "test@test.com").first():
+    organization = Organization("test", "test@test.com", user.id)
+    db.add(organization)
+    db.commit()
+    db.refresh(organization)
+    print(organization.id)

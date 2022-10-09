@@ -31,6 +31,10 @@ def upload_file(file: SpooledTemporaryFile, filename:str, path:str = '') -> Unio
 
 def delete_file(path: str) -> bool:
     if not path: return False
+    
+    # Other version to do this:
+    # # client = s3()
+    # # client.delete_object(Bucket=AWS_S3_BUCKET_NAME,Key=path)
 
     s3 = boto3.resource('s3')
     s3.Object(AWS_S3_BUCKET_NAME, path).delete()

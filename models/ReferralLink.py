@@ -18,11 +18,13 @@ class ReferralLink(Base):
     
     id_organization = Column(UUID(as_uuid=True),
                              ForeignKey("organization.id",
-                                        ondelete=True))
+                                        ondelete="CASCADE"))
     
     name = Column(String)
     
-    def __init__(self, name:str, id_organization:str) -> None:
+    def __init__(self, 
+                 name:str,
+                 id_organization:str) -> None:
         self.name = name
         self.id_organization = id_organization
         
@@ -41,17 +43,19 @@ class ReferralLinkUser(Base):
     
     id_referral_link = Column(UUID(as_uuid=True),
                               ForeignKey("referral_link.id",
-                                         ondelete=True),
+                                         ondelete="CASCADE"),
                               primary_key=True)
     
     id_user = Column(UUID(as_uuid=True),
                      ForeignKey("user.id",
-                                ondelete=True),
+                                ondelete="CASCADE"),
                      primary_key=True)
     
     user = relationship("User")
     
     
-    def __init__(self, id_user:UUID4, id_referral_link:UUID4) -> None:
+    def __init__(self, 
+                 id_user:UUID4, 
+                 id_referral_link:UUID4) -> None:
         self.id_user = id_user
         self.id_referral_link = id_referral_link

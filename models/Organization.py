@@ -8,6 +8,7 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from database import SessionLocal
 from models.Location import Location
 from models.ReferralLink import ReferralLink
+from models.Role import Role
 import uuid
 
 
@@ -26,6 +27,7 @@ class Organization(Base):
     id_creator = Column(UUID(as_uuid=True), 
                         ForeignKey("user.id", 
                                   ondelete="CASCADE"))
+    
     image_url = Column(String, nullable=True)
     description = Column(String, nullable=True)
     
@@ -67,17 +69,17 @@ class UserInOrganization(Base):
     
     id_organization = Column(UUID(as_uuid=True),
                              ForeignKey("organization.id",
-                                        ondelete=True),
+                                        ondelete="CASCADE"),
                              primary_key=True)
     
     id_user = Column(UUID(as_uuid=True),
                     ForeignKey("user.id",
-                                ondelete=True),
+                                ondelete="CASCADE"),
                     primary_key=True)
     
     id_role = Column(UUID(as_uuid=True),
                     ForeignKey("role.id",
-                                ondelete=True))
+                                ondelete="CASCADE"))
     
     def __init__(self, id_organization:UUID4, id_user:UUID4, id_role:UUID4) -> None:
         self.id_organization = id_organization

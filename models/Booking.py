@@ -19,15 +19,15 @@ class Booking(Base):
     
     id_user = Column(UUID(as_uuid=True),
                      ForeignKey("user.id",
-                                ondelete=True))
+                                ondelete="CASCADE"))
     
     id_event = Column(UUID(as_uuid=True),
                      ForeignKey("user.id",
-                                ondelete=True))
+                                ondelete="CASCADE"))
     
     id_referral_link = Column(UUID(as_uuid=True),
                               ForeignKey("user.id",
-                                        ondelete=True),
+                                        ondelete="CASCADE"),
                               nullable=True)
     
     date_booked = Column(TIMESTAMP)
