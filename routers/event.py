@@ -98,8 +98,7 @@ def event_update(id_event: str,
         
     if event_data.location:
         location = db.query(Location).filter(Location.id == event_data.location).first()
-        if location: 
-            event.location = location.id
+        if location: event.location = location.id
 
     db.commit()
     db.refresh(event)

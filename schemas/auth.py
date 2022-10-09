@@ -1,5 +1,5 @@
 from pydantic import UUID4, BaseModel, EmailStr
-
+from typing import Union
 
 class LoginSchema(BaseModel):
     email: EmailStr
@@ -16,4 +16,7 @@ class UserSchema(BaseModel):
     email: EmailStr
     first_name: str
     last_name: str
-    image_url: str
+    image_url: Union[str, None]
+    
+    class Config:
+        orm_mode = True

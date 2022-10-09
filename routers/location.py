@@ -39,7 +39,7 @@ def location_create(id_organization:str,
     return location
 
 
-@location_router.post(path="/location/{id_location}", status_code=status.HTTP_200_OK, response_model=LocationSchema)
+@location_router.patch(path="/location/{id_location}", status_code=status.HTTP_200_OK, response_model=LocationSchema)
 def location_update(id_location:str,
                     location_data: LocationSchema,
                     user: User = Depends(get_current_user),

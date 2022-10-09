@@ -6,28 +6,31 @@ from pydantic import constr
 
 class OrganizationInEventSchema(BaseModel):
     name: str
-    image_url: str
-    instagram_link: str
-    phone: str
+    image_url: Union[str, None]
+    instagram_link: Union[str, None]
+    phone: Union[str, None]
     email: EmailStr
+    
+    class Config:
+        orm_mode = True
 
 
 class EventSchema(BaseModel):
     id: Union[UUID4, None] = None
-    name: str | None = None
-    description: str | None = None
+    name: str = None
+    description: str = None
     
-    date: datetime | None = None
-    open_date: datetime | None = None
-    close_date: datetime | None = None
-    visible_date: datetime | None = None
+    date: datetime = None
+    open_date: datetime = None
+    close_date: datetime = None
+    visible_date: datetime = None
     
-    primary_color: Optional[constr(max_length=8)] | None = None
-    secondary_color: Optional[constr(max_length=8)] | None = None
+    primary_color: str = None 
+    secondary_color: str = None
     
-    image_url: Union[str, None] = None
-    location: Union[str, LocationSchema, None] = None
-    organization: Union[OrganizationInEventSchema, None] = None
+    image_url: Union[str, None]
+    location: Union[LocationSchema, None]
+    organization: Union[OrganizationInEventSchema, None]
     
     class Config:
-        orm_config = True
+        orm_mode = True
