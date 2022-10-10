@@ -11,6 +11,7 @@ class BookingSchema(BaseModel):
     referral_link: ReferralLinkSchema | None = None
     date_booked: datetime = None
     code: str = None
+    entered: bool = None
     
     class Config:
         orm_mode = True

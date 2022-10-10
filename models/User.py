@@ -27,7 +27,7 @@ class User(Base):
     
     image_url = Column(String, nullable=True)
     
-    password = Column(String(64))
+    password = Column(String)
     
     access_revoked = Column(BOOLEAN, default=False)
     
@@ -36,7 +36,7 @@ class User(Base):
                  email:str, 
                  first_name:str,
                  last_name:str):
-        self.password = password
+        self.set_password(password)
         self.email = email
         self.first_name = first_name
         self.last_name = last_name

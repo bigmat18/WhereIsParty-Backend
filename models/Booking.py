@@ -1,7 +1,7 @@
 from sqlalchemy.sql.expression import text
 from sqlalchemy.orm import relationship
 from pydantic import UUID4
-from sqlalchemy import Column, String, ForeignKey, BOOLEAN
+from sqlalchemy import Boolean, Column, String, ForeignKey, BOOLEAN
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql.sqltypes import TIMESTAMP
 from sqlalchemy.dialects.postgresql import JSON
@@ -34,6 +34,8 @@ class Booking(Base):
     date_booked = Column(TIMESTAMP(timezone=True),
                          server_default=text('now()'))
     code = Column(String, unique=True)
+    
+    entered = Column(Boolean, default=False)
     
     user = relationship('User')
     referral_link = relationship('ReferralLink')
