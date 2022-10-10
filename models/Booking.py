@@ -37,6 +37,7 @@ class Booking(Base):
     
     user = relationship('User')
     referral_link = relationship('ReferralLink')
+    event = relationship('Event')
     
     def __init__(self, 
                  id_user: UUID4, 
