@@ -1,7 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database import Base, SessionLocal, engine
+from dotenv import load_dotenv
 import os
+
 
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
@@ -20,12 +22,13 @@ from routers.booking import booking_router
 Base.metadata.create_all(bind=engine)
 app = FastAPI()
 db = SessionLocal()
+load_dotenv()
 
 
 # in production you can use Settings management
 # from pydantic to get secret key from .env
 class Settings(BaseModel):
-    authjwt_secret_key: str = os.environ.get("SECREY_KEY")
+    authjwt_secret_key: str = os.getenv('SECRET_KEY')
     authjwt_denylist_enabled: bool = True
 
 
