@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database import Base, SessionLocal, engine
+import os
 
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
@@ -24,7 +25,7 @@ db = SessionLocal()
 # in production you can use Settings management
 # from pydantic to get secret key from .env
 class Settings(BaseModel):
-    authjwt_secret_key: str = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
+    authjwt_secret_key: str = os.environ.get("SECREY_KEY")
     authjwt_denylist_enabled: bool = True
 
 
