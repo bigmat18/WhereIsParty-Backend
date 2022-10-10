@@ -6,7 +6,7 @@ from database import get_db
 from utils.file_manager import upload_file
 from utils.get_current_user import get_current_user
 from typing import Union
-from .referral import get_referral_link
+from sqlalchemy import and_
 from .event import get_event
 from typing import List
 
@@ -37,7 +37,14 @@ def booking_create(id_event: str,
                    db: Session = Depends(get_db)):
     event = get_event(id_event, db)
     
-    booking = Booking(id_user=user.id, id_event=event.id, id_referral_link=booking.referral_link)
+    if booking.referral_link:
+        referral_link = db.query(ReferralLink)\
+                        .filter(and_(ReferralLink.name == booking.referral_link, ReferralLink.id_organization == event.id_organization))\
+                        .first()
+        
+        booking = Booking(id_user=user.id, id_event=event.id, id_referral_link=referral_link.id)
+    else:
+        booking = Booking(id_user=user.id, id_event=event.id)
     
     db.add(booking)
     db.commit()
