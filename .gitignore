@@ -3,3 +3,4 @@ __pycache__
 .vscode
 sql
 information.txt
+.env
