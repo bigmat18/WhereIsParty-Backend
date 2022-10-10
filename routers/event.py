@@ -53,9 +53,9 @@ def event_create(id_organization: str,
 
 @event_router.get(path="/event/{id_event}", status_code=status.HTTP_200_OK, response_model=EventSchema)
 def event_retrieve(id_event: str,
-                   id_referral: str,
+                   id_referral: str = None,
                    db: Session = Depends(get_db)):
-    if db.query(ReferralLink).filter(ReferralLink.id == id_referral):
+    if id_referral and db.query(ReferralLink).filter(ReferralLink.id == id_referral):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                             detail="Refferal link invalido")
         
