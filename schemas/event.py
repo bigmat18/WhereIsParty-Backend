@@ -29,7 +29,7 @@ class EventSchema(BaseModel):
     secondary_color: str = None
     
     image_url: Union[str, None]
-    location: Union[LocationSchema, None]
+    location: Union[str, LocationSchema]
     organization: Union[OrganizationInEventSchema, None]
     
     class Config:
