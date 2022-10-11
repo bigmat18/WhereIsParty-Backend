@@ -28,7 +28,7 @@ class User(Base):
     image_url = Column(String, nullable=True)
     
     password = Column(String)
-    
+     
     access_revoked = Column(BOOLEAN, default=False)
     
     def __init__(self, 

@@ -8,7 +8,7 @@ class BookingSchema(BaseModel):
     id: UUID4 = None
     user: UserSchema = None
     event: EventSchema = None
-    referral_link: ReferralLinkSchema | None = None
+    referral_link: ReferralLinkSchema | None | str = None
     date_booked: datetime = None
     code: str = None
     entered: bool = None

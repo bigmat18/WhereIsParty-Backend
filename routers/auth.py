@@ -25,7 +25,7 @@ def login(credentials: LoginSchema, db: Session = Depends(get_db), Authorize: Au
                             detail=f"La mail {credentials.email} è errata")
         
     # check if password is correct
-    if user.password != credentials.password:
+    if not user.check_password(credentials.password):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                             detail=f"La password è errata")
         
