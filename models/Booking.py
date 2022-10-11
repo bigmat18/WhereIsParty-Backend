@@ -43,9 +43,10 @@ class Booking(Base):
     
     def __init__(self, 
                  id_user: UUID4, 
-                 id_event:UUID4, 
+                 id_event:UUID4,
+                 code: str,
                  id_referral_link:Union[UUID4, None] = None) -> None:
         self.id_user = id_user
         self.id_event = id_event
-        self.code = generate_random_string()
+        self.code = code
         self.id_referral_link = id_referral_link
