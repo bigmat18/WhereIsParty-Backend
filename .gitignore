@@ -4,3 +4,4 @@ __pycache__
 sql
 information.txt
 .env
+script.py

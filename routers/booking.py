@@ -80,7 +80,7 @@ def booking_create(id_event: str,
 @booking_router.get(path="/user/booking", status_code=status.HTTP_200_OK, response_model=BookingSchema)
 def booking_retrieve_logged_user(user: User = Depends(get_current_user),
                                  db: Session = Depends(get_db)):
-    booking = db.query(Booking).filter(Booking.id_user == user.id).first()
+    booking = db.query(Booking).filter(Booking.id_user == user.id).order_by(Booking.date_booked.desc()).first()
     if booking: return booking
     else: return Response(status_code=status.HTTP_200_OK)
     
