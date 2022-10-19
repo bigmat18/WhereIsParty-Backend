@@ -51,12 +51,12 @@ def booking_create(id_event: str,
                    db: Session = Depends(get_db)):
     event = get_event(id_event, db)
     
-    if db.query(Booking).filter(Booking.id_user == user.id).first():
+    if db.query(Booking).filter(and_(Booking.id_user == user.id, Booking.id_event == id_event)).first():
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                             detail="Prenotazione già avvenuta per questo utente")
         
     code = generate_random_string()
-    while db.query(Booking).filter(Booking.code == code).first():
+    while db.query(Booking).filter(and_(Booking.code == code, Booking.id_event == id_event)).first():
         code = generate_random_string()
     
     if booking.referral_link:
