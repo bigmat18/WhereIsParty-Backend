@@ -9,6 +9,7 @@ from typing import Union
 from sqlalchemy import and_
 from .event import get_event
 from typing import List
+from utils.generate_random_string import generate_random_string
 
 booking_router = APIRouter(tags=["Booking"])
 
@@ -50,16 +51,24 @@ def booking_create(id_event: str,
                    db: Session = Depends(get_db)):
     event = get_event(id_event, db)
     
+    if db.query(Booking).filter(Booking.id_user == user.id).first():
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                            detail="Prenotazione già avvenuta per questo utente")
+        
+    code = generate_random_string()
+    while db.query(Booking).filter(Booking.code == code).first():
+        code = generate_random_string()
+    
     if booking.referral_link:
         referral_link = db.query(ReferralLink)\
                         .filter(and_(ReferralLink.name == booking.referral_link, ReferralLink.id_organization == event.id_organization))\
                         .first()
         if referral_link:
-            booking = Booking(id_user=user.id, id_event=event.id, id_referral_link=referral_link.id)
+            booking = Booking(id_user=user.id, id_event=event.id, code=code, id_referral_link=referral_link.id)
         else: 
-            booking = Booking(id_user=user.id, id_event=event.id)
+            booking = Booking(id_user=user.id, id_event=event.id, code=code)
     else:
-        booking = Booking(id_user=user.id, id_event=event.id)
+        booking = Booking(id_user=user.id, id_event=event.id, code=code)
     
     db.add(booking)
     db.commit()
