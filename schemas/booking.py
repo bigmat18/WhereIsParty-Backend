@@ -5,7 +5,7 @@ from .organization import UserSchema, ReferralLinkSchema
 from .event import EventSchema
 
 class BookingSchema(BaseModel):
-    id: Union[UUID4, UUID1, UUID3, UUID5] = None
+    id: UUID4 = None
     user: UserSchema = None
     event: EventSchema = None
     referral_link: Union[ReferralLinkSchema, None, str] = None
