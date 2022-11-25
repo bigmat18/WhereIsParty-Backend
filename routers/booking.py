@@ -29,19 +29,23 @@ def booking_list(id_event: str,
                  db: Session = Depends(get_db)):
     
     event = get_event(id_event, db)
+    bookings = None
     
     if referral_link:
         referral_link = db.query(ReferralLink)\
                           .filter(and_(ReferralLink.name == referral_link, ReferralLink.id_organization == event.id_organization))\
                           .first()
         if referral_link:
-            bookings = db.query(Booking).filter(and_(Booking.id_event == id_event, Booking.id_referral_link == referral_link.id)).all()
-        else: 
-            bookings = db.query(Booking).filter(Booking.id_event == id_event).all()
-    else:
-        bookings = db.query(Booking).filter(Booking.id_event == id_event).all()
+            bookings = db.query(Booking)\
+                         .filter(and_(Booking.id_event == id_event, Booking.id_referral_link == referral_link.id))\
+                         .all()
     
-    return bookings
+    if not bookings:
+        bookings = db.query(Booking)\
+                     .filter(Booking.id_event == id_event)\
+                     .all()
+    
+    return bookings 
 
 
 @booking_router.post(path="/event/{id_event}/booking", status_code=status.HTTP_201_CREATED, response_model=BookingSchema)
