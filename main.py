@@ -50,10 +50,9 @@ def check_if_token_in_denylist(decrypted_token):
 # in production, you can tweak performance using orjson response
 @app.exception_handler(AuthJWTException)
 def authjwt_exception_handler(request: Request, exc: AuthJWTException):
-    print(exc)
     return JSONResponse(
         status_code=exc.status_code,
-        content={"ciao": exc.message}
+        content={"detail": exc.message}
     )
 
 
