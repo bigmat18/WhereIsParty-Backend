@@ -50,7 +50,6 @@ def booking_list(id_event: str,
 
 @booking_router.post(path="/event/{id_event}/booking", status_code=status.HTTP_201_CREATED, response_model=BookingSchema)
 def booking_create(id_event: str,
-                   booking: BookingSchema,
                    referral_link: str,
                    user: User = Depends(get_current_user),
                    db: Session = Depends(get_db)):
