@@ -40,19 +40,3 @@ def referral_link_create(id_organization:str,
     db.commit()
             
     return referral_link
-
-
-# @referral_link_router.patch(path="/referral/{id_referral_link}", status_code=status.HTTP_200_OK, response_model=ReferralLinkSchema)
-# def referral_link_update(id_referral_link:str,
-#                          referral_link_data: ReferralLinkSchema,
-#                          user: User = Depends(get_current_user),
-#                          db: Session = Depends(get_db)):
-#     referral_link = get_referral_link(id_referral_link, db)
-    
-#     if referral_link_data.name:
-#         referral_link.name = referral_link_data.name
-        
-#     db.commit()
-#     db.refresh(referral_link)
-    
-#     return referral_link

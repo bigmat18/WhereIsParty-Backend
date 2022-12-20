@@ -37,28 +37,3 @@ def location_create(id_organization:str,
     db.refresh(location)
     
     return location
-
-
-# @location_router.patch(path="/location/{id_location}", status_code=status.HTTP_200_OK, response_model=LocationSchema)
-# def location_update(id_location:str,
-#                     location_data: LocationSchema,
-#                     user: User = Depends(get_current_user),
-#                     db: Session = Depends(get_db)):
-#     location = get_location(id_location, db)
-    
-#     if location_data.name:
-#         location.name = location_data.name
-        
-#     if location_data.latitude:
-#         location.latitude = location_data.latitude
-        
-#     if location_data.longitude:
-#         location.longitude = location_data.longitude
-        
-#     if location_data.address:
-#         location.address = location_data.address
-        
-#     db.commit()
-#     db.refresh(location)
-    
-#     return location
