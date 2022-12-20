@@ -29,19 +29,23 @@ def booking_list(id_event: str,
                  db: Session = Depends(get_db)):
     
     event = get_event(id_event, db)
+    bookings = None
     
     if referral_link:
         referral_link = db.query(ReferralLink)\
                           .filter(and_(ReferralLink.name == referral_link, ReferralLink.id_organization == event.id_organization))\
                           .first()
         if referral_link:
-            bookings = db.query(Booking).filter(and_(Booking.id_event == id_event, Booking.id_referral_link == referral_link.id)).all()
-        else: 
-            bookings = db.query(Booking).filter(Booking.id_event == id_event).all()
-    else:
-        bookings = db.query(Booking).filter(Booking.id_event == id_event).all()
+            bookings = db.query(Booking)\
+                         .filter(and_(Booking.id_event == id_event, Booking.id_referral_link == referral_link.id))\
+                         .all()
     
-    return bookings
+    if not bookings:
+        bookings = db.query(Booking)\
+                     .filter(Booking.id_event == id_event)\
+                     .all()
+    
+    return bookings 
 
 
 @booking_router.post(path="/event/{id_event}/booking", status_code=status.HTTP_201_CREATED, response_model=BookingSchema)
@@ -58,16 +62,16 @@ def booking_create(id_event: str,
     code = generate_random_string()
     while db.query(Booking).filter(and_(Booking.code == code, Booking.id_event == id_event)).first():
         code = generate_random_string()
+        
+    booking = None
     
     if booking.referral_link:
         referral_link = db.query(ReferralLink)\
-                        .filter(and_(ReferralLink.name == booking.referral_link, ReferralLink.id_organization == event.id_organization))\
-                        .first()
-        if referral_link:
-            booking = Booking(id_user=user.id, id_event=event.id, code=code, id_referral_link=referral_link.id)
-        else: 
-            booking = Booking(id_user=user.id, id_event=event.id, code=code)
-    else:
+                          .filter(and_(ReferralLink.name == booking.referral_link, ReferralLink.id_organization == event.id_organization))\
+                          .first()
+        booking = Booking(id_user=user.id, id_event=event.id, code=code, id_referral_link=referral_link.id)
+
+    if not booking: 
         booking = Booking(id_user=user.id, id_event=event.id, code=code)
     
     db.add(booking)
@@ -80,7 +84,7 @@ def booking_create(id_event: str,
 @booking_router.get(path="/user/booking", status_code=status.HTTP_200_OK, response_model=BookingSchema)
 def booking_retrieve_logged_user(user: User = Depends(get_current_user),
                                  db: Session = Depends(get_db)):
-    booking = db.query(Booking).filter(Booking.id_user == user.id).first()
+    booking = db.query(Booking).filter(Booking.id_user == user.id).order_by(Booking.date_booked.desc()).first()
     if booking: return booking
     else: return Response(status_code=status.HTTP_200_OK)
     

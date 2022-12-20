@@ -1,12 +1,12 @@
 from datetime import datetime
-from pydantic import UUID4, BaseModel, EmailStr
+from pydantic import UUID1, UUID4, BaseModel, EmailStr
 from typing import List, Union, Optional
 from .auth import UserSchema
 from pydantic import constr
 
 
 class ReferralLinkSchema(BaseModel):
-    id: UUID4
+    id: Union[UUID4, UUID1]
     name: str = None
     users: List[Union[str, UserSchema]] = None
     
