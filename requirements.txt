@@ -1,6 +1,5 @@
 anyio==3.6.1
 attrs==22.1.0
-awsebcli==3.20.3
 bcrypt==4.0.1
 blessed==1.19.1
 boto3==1.26.34
