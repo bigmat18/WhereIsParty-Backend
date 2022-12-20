@@ -1,5 +1,6 @@
 anyio==3.6.1
 attrs==22.1.0
+awsebcli==3.20.3
 bcrypt==4.0.1
 blessed==1.19.1
 boto3==1.26.34
@@ -62,5 +63,4 @@ typing_extensions==4.3.0
 urllib3==1.26.12
 uvicorn==0.18.3
 wcwidth==0.1.9
-websocket-client==0.59.0
 Werkzeug==2.2.2
