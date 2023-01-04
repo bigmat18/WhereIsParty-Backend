@@ -5,3 +5,4 @@ sql
 information.txt
 .env
 script.py
+client/

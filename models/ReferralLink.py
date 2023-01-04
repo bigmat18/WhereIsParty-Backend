@@ -36,6 +36,8 @@ class ReferralLink(Base):
                              .all()
         users = []
         for el in user_in_referral: users.append(el.user)
+        
+        db.close()
         return users
         
 class ReferralLinkUser(Base):
