@@ -71,8 +71,7 @@ def booking_create(id_event: str,
                           .first()
         new_booking = Booking(id_user=user.id, id_event=event.id, code=code, id_referral_link=referral_link.id)
 
-    if not booking: 
-        new_booking = Booking(id_user=user.id, id_event=event.id, code=code)
+    if not new_booking: new_booking = Booking(id_user=user.id, id_event=event.id, code=code)
     
     db.add(new_booking)
     db.commit()
