@@ -63,20 +63,20 @@ def booking_create(id_event: str,
     while db.query(Booking).filter(and_(Booking.code == code, Booking.id_event == id_event)).first():
         code = generate_random_string()
         
-    booking = None
+    new_booking = None
     
     if booking.referral_link:
         referral_link = db.query(ReferralLink)\
                           .filter(and_(ReferralLink.name == booking.referral_link, ReferralLink.id_organization == event.id_organization))\
                           .first()
-        booking = Booking(id_user=user.id, id_event=event.id, code=code, id_referral_link=referral_link.id)
+        new_booking = Booking(id_user=user.id, id_event=event.id, code=code, id_referral_link=referral_link.id)
 
     if not booking: 
-        booking = Booking(id_user=user.id, id_event=event.id, code=code)
+        new_booking = Booking(id_user=user.id, id_event=event.id, code=code)
     
-    db.add(booking)
+    db.add(new_booking)
     db.commit()
-    db.refresh(booking)
+    db.refresh(new_booking)
     
     return booking
 
