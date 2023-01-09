@@ -21,7 +21,6 @@ from routers.booking import booking_router
 
 Base.metadata.create_all(bind=engine)
 app = FastAPI()
-db = SessionLocal()
 load_dotenv()
 
 
@@ -41,8 +40,10 @@ def get_config():
 # get id user and set it logged out from rest api
 @AuthJWT.token_in_denylist_loader
 def check_if_token_in_denylist(decrypted_token):
+    db = SessionLocal()
     user_id = decrypted_token['sub']
     user = db.query(User).filter(User.id == user_id).first()
+    db.close()
     return user.access_revoked
 
 
@@ -71,6 +72,7 @@ app.include_router(event_router)
 app.include_router(booking_router)
 
 # Create admin user
+db = SessionLocal()
 user = db.query(User).filter(User.email == "admin@admin.com").first()
 if not user:
     user = User("admin123456", "admin@admin.com", "admin", "admin")
@@ -84,3 +86,4 @@ if not db.query(Organization).filter(Organization.email == "test@test.com").firs
     db.commit()
     db.refresh(organization)
     print(organization.id)
+db.close()
