@@ -70,7 +70,7 @@ def booking_create(id_event: str,
                           .filter(and_(ReferralLink.name == booking.referral_link, ReferralLink.id_organization == event.id_organization))\
                           .first()
         
-        if referral_link: new_booking = Booking(id_user=user.id, id_event=event.id, code=code, id_referral_link=referral_link.id)
+        if referral_link != None: new_booking = Booking(id_user=user.id, id_event=event.id, code=code, id_referral_link=referral_link.id)
         else: new_booking = Booking(id_user=user.id, id_event=event.id, code=code)
 
     if not new_booking: new_booking = Booking(id_user=user.id, id_event=event.id, code=code)
