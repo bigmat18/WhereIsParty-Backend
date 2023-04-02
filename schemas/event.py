@@ -1,5 +1,5 @@
 from datetime import datetime
-from pydantic import UUID4, BaseModel, EmailStr
+from pydantic import UUID4, UUID1, BaseModel, EmailStr
 from typing import List, Union, Optional
 from .organization import LocationSchema
 from pydantic import constr
@@ -16,7 +16,7 @@ class OrganizationInEventSchema(BaseModel):
 
 
 class EventSchema(BaseModel):
-    id: Union[UUID4, None] = None
+    id: Union[UUID4, UUID1, None] = None
     name: str = None
     description: str = None
     
